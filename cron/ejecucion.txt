@@ -1,0 +1,11 @@
+- open taskschd.msc
+- Crear nueva tarea
+- Activar:
+	Trigger: Cada 1 minuto
+	Action: Iniciar programa
+- Programa a ejecutar:
+	C:\Program Files\nodejs\node.exe
+
+- Argumentos:
+	C:\Sena\Proyectos\IoT\AccesControl\ApiServer\cron\closeSessions.js
+- Iniciar sin interfaz

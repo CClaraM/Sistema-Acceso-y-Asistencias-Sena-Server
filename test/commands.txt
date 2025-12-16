@@ -1,0 +1,459 @@
+Ver mi propio perfil
+GET http://localhost:4000/api/users/{id_usuario}/profile
+Authorization: Bearer {{TOKEN_USUARIO}}
+Content-Type: application/json
+
+reply:
+{
+  "id_usuario": 2,
+  "nombre": "Cristian",
+  "apellido": "Lara",
+  "correo_personal": "cristian@gmail.com",
+  "celular": "3001234567",
+  "tipo_documento": "CC",
+  "documento": "123456789",
+  "fecha_nacimiento": "1998-04-21"
+}
+
+------------------------------------
+PUT http://localhost:4000/api/users/{id_usuario}/profile
+Authorization: Bearer {{TOKEN_APRENDIZ}}
+Content-Type: application/json
+{
+  "correo_personal": "cristian.nuevo@gmail.com",
+  "celular": "3009998888"
+}
+
+reply:
+{
+  "status": "OK"
+}
+
+------------------------------------
+GET http://localhost:4000/api/users/{id_usuario}/residencia
+Authorization: Bearer {{TOKEN_APRENDIZ}}
+
+reply:
+{
+    "usuario_id": 2,
+    "direccion": "Vereda El Carmen, casa 12",
+    "municipio": "Popayán",
+    "departamento": "Cauca",
+    "sector": "RURAL",
+    "estrato": 1
+}
+
+------------------------------------
+PUT http://localhost:4000/api/users/{id_usuario}/residencia
+Authorization: Bearer {{TOKEN_APRENDIZ}}
+Content-Type: application/json
+{
+  "direccion": "Vereda El Carmen, casa 12",
+  "municipio": "Popayán",
+  "departamento": "Cauca",
+  "sector": "RURAL",
+  "estrato": 1
+}
+
+reply:
+{
+    "status": "OK",
+    "residencia": {
+        "usuario_id": 2,
+        "direccion": "Vereda El Carmen, casa 12",
+        "municipio": "Popayán",
+        "departamento": "Cauca",
+        "sector": "RURAL",
+        "estrato": 1
+    }
+}
+
+------------------------------------
+PUT http://localhost:4000/api/users/{id_usuario}/aprendiz-tutor
+Authorization: Bearer {{TOKEN_APRENDIZ}}
+Content-Type: application/json
+{
+  "nombre": "María",
+  "apellido": "Gómez",
+  "celular": "3005556677",
+  "parentesco": "Madre"
+}
+
+reply:
+{
+  "status": "OK",
+  "acudiente": {
+    "nombre": "María",
+    "apellido": "Gómez",
+    "celular": "3005556677",
+    "parentesco": "Madre"
+  }
+}
+------------------------------------
+GET http://localhost:4000/api/users/{id_usuario}/aprendiz-tutor
+
+reply:
+{
+    "nombre": "María",
+    "apellido": "Gómez",
+    "celular": "3005556677",
+    "parentesco": "Madre"
+}
+o
+{
+  "error": "Acudiente no registrado"
+}
+
+------------------------------------
+GET http://localhost:4000/api/jornadas/reglas
+Authorization: Bearer {{TOKEN_ADMIN}}
+
+reply:
+[
+    {
+        "id_jornada_regla": 4,
+        "jornada": "DIURNA",
+        "dia_semana": "jueves",
+        "hora_inicio": "07:00:00",
+        "hora_fin": "12:30:00",
+        "estado": "ACTIVO"
+    },
+    {.....}
+]
+------------------------------------
+POST http://localhost:4000/api/jornadas/reglas
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "jornada": "DIURNA",
+  "dia_semana": "lunes",
+  "hora_inicio": "07:00",
+  "hora_fin": "12:30"
+}
+
+reply:
+{
+    "status": "Regla creada"
+}
+
+------------------------------------
+PUT http://localhost:4000/api/jornadas/reglas/{id regla}
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "hora_inicio": "08:00",
+  "hora_fin": "12:00"
+}
+
+reply:
+{
+    "status": "Regla actualizada"
+}
+
+------------------------------------
+PATCH http://localhost:4000/api/jornadas/reglas/{id regla}/estado
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "estado": "INACTIVO"
+}
+
+reply:
+{
+    "status": "Estado actualizado"
+}
+
+------------------------------------
+POST http://localhost:4000/api/horarios
+Authorization: Bearer {{TOKEN}}
+{
+  "trimestre_id": 1,
+  "ficha_numero": 3064975,
+  "ambiente_id": 3,
+  "dia_semana": "lunes",
+  "hora_inicio": "07:00",
+  "hora_fin": "09:30",
+  "instructor_id": 4
+}
+
+reply:
+{
+    "status": "Horario creado"
+}
+
+------------------------------------
+PUT http://localhost:4000/api/horarios/{id horario}
+Authorization: Bearer {{TOKEN}}
+{
+  "hora_inicio": "08:00",
+  "hora_fin": "10:30"
+}
+
+reply:
+{
+    "status": "Horario actualizado"
+}
+
+------------------------------------
+PATCH http://localhost:4000/api/horarios/{id horario}/estado
+Authorization: Bearer {{TOKEN}}
+{
+  "estado": "INACTIVO"
+}
+
+reply:
+{
+    "status": "Estado de horario actualizado"
+}
+
+------------------------------------
+GET http://localhost:4000/api/fichas/{fichaNumero}/horarios
+Authorization: Bearer {{TOKEN}}
+
+reply:
+{
+    "ficha": 3064975,
+    "total": 10,
+    "horarios": [
+        {
+            "id_horario": 7,
+            "trimestre_id": 1,
+            "dia_semana": "jueves",
+            "hora_inicio": "07:00:00",
+            "hora_fin": "09:30:00",
+            "ambiente_id": 3,
+            "instructor_id": 4,
+            "estado": "ACTIVO"
+        },
+	{.......}
+     ]
+}
+------------------------------------
+------------------------------------
+GET http://localhost:4000/api/fichas/{numero_ficha}/aprendices
+Authorization: Bearer {{TOKEN_ADMIN}}
+
+reply:
+"ficha": 3064975,
+  "total": 3,
+  "aprendices": [
+   {
+    .......
+   },
+   {
+    .......
+   }
+  ]
+}
+------------------------------------
+POST http://localhost:4000/api/fichas
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "numero": 3030303,
+  "ambiente_id": 3,
+  "instructor_lider_id": 5,
+  "fecha_inicio": "2025-09-01",
+  "fecha_fin": "2026-02-01",
+  "programa_formacion_id": 1
+}
+
+reply:
+
+{
+    "status": "Ficha creada",
+    "ficha": 3030303
+}
+------------------------------------
+POST http://localhost:4000/api/fichas/{numero_ficha}/inscripciones
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "usuario_rol_aprendiz": 16
+}
+
+reply:
+{
+    "status": "Aprendiz inscrito",
+    "ficha": 30303030
+}
+
+------------------------------------
+PUT http://localhost:4000/api/fichas/{numero_ficha}
+Authorization: Bearer {{TOKEN_ADMIN}}
+{
+  "ambiente_id": 5
+}
+o
+{
+  "fecha_inicio": "2025-09-05",
+  "fecha_fin": "2026-02-10"
+}
+
+reply:
+{
+  "status": "Ficha actualizada"
+}
+
+------------------------------------
+DELETE http://localhost:4000/api/fichas/{numero_ficha}
+Authorization: Bearer {{TOKEN_ADMIN}}
+
+reply:
+{
+    "status": "Ficha eliminada"
+}
+
+------------------------------------
+------------------------------------
+------------------------------------
+Login User
+POST http://localhost:4000/api/auth/user-login
+{
+  "documento": "1065789001",
+  "password": "1234"
+}
+
+reply:
+{
+    "userId": int,
+    "userRolId": int,
+    "role": "algún rol",
+    "accessToken": "xxxxx.yyyyy.zzzzz",
+  
+}
+
+------------------------------------
+Crear TST
+POST http://localhost:4000/api/admin/create-tst
+Authorization: Bearer <USER_TOKEN>
+Content-Type: application/json
+{
+    "ambiente_id": int,
+    "ambiente_nombre": "Nombre de ambiente",
+    "validMinutes": int
+}
+
+reply:
+{
+    "id": "63cf.....",
+    "code": "XXXX-1234-XXXX",
+    "ambiente_id": int,
+    "ambiente_nombre": "Nombre de ambiente",
+    "expires_at": "2025-12-14T03:49:09.287Z",
+    "used": false,
+    "used_by_device": null,
+    "created_at": "2025-12-14T03:44:09.341Z"
+}
+
+------------------------------------
+Enrollar dispositivo
+POST http://localhost:4000/api/device/enroll
+{
+  "tst": "ABCD-1234-EFGH",
+  "deviceKey": "DCL-5cd128fa",
+  "config": {
+    "server": "192.168.1.8",
+    "port": "4000",
+    "ioBoard": "USBBoard"
+  }
+}
+
+reply:
+{
+  "deviceId": "80b1a086-827d-4e26-92f9-29a0ea5e5181",
+  "ambiente_id": 1,
+  "accessToken": "xxx",
+  "refreshToken": "yyy"
+}
+
+------------------------------------
+Probar PING
+GET http://localhost:4000/api/device/ping
+Authorization: Bearer <accessToken>
+
+reply:
+{
+  "status": "ok"
+}
+
+------------------------------------
+Consultar si necesita sincronización
+GET http://localhost:4000/api/sync/status
+Authorization: Bearer <accessToken>
+
+reply:
+{
+  "needsSync": true
+}
+
+Obtener FULL PAYLOAD
+GET http://localhost:4000/api/sync/full
+Authorization: Bearer <accessToken>
+
+reply:
+{
+  "ambiente_id": 1,
+  "metadata": {
+    "sync_id": "...",
+    "tabla_version": 1
+  },
+  "config_ambiente": {...},
+  "fichas": [...],
+  "aprendices": [...],
+  "instructores": [...],
+  "vigilancia": [...],
+  "biometria": [...],
+  "removed_users": [...]
+}
+
+
+GET http://localhost:4000/api/sync/status
+Authorization: Bearer <accessToken>
+
+------------------------------------
+Simular REFRESH TOKEN
+POST http://localhost:4000/api/auth/refresh
+{
+  "refreshToken": "<refreshToken actual>"
+}
+
+reply:
+{
+  "accessToken": "xxxx",
+  "refreshToken": "yyyy"
+}
+
+------------------------------------
+Simular REGISTRO ASISTENCIA
+POST http://localhost:4000/api/sispa/asistencia
+Authorization: Bearer <accessToken>
+{
+  "usuario_id": 142,
+  "metodo": "FACENET",
+  "confianza": 0.93
+}
+
+reply:
+{
+  "status": "OK",
+  "asistencia": "presente",
+  "mensaje": "Asistencia registrada correctamente (presente)."
+}
+
+------------------------------------
+Simular inicio de sesión instructor
+POST http://localhost:4000/api/sispa/sesion/iniciar
+{
+  "usuario_id": 15,
+  "metodo": "FACENET"
+}
+
+------------------------------------
+Simular cierre de sesión instructor
+POST http://localhost:4000/api/sispa/sesion/cerrar
+{
+  "usuario_id": 15
+}
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
+------------------------------------
